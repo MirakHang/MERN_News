@@ -39,18 +39,14 @@ export default function FooterCom() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Sahand's Blog
+                  Dhoni Ko News
                 </Footer.Link>
               </Footer.LinkGroup>
             </div>
             <div>
               <Footer.Title title="Follow us" />
               <Footer.LinkGroup col>
-                <Footer.Link
-                  href="https://www.github.com/sahandghavidel"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <Footer.Link href="#" target="_blank" rel="noopener noreferrer">
                   Github
                 </Footer.Link>
                 <Footer.Link href="#">Discord</Footer.Link>
@@ -69,17 +65,14 @@ export default function FooterCom() {
         <div className="w-full sm:flex sm:items-center sm:justify-between">
           <Footer.Copyright
             href="#"
-            by="Sahand's blog"
+            by="Dhoni Ko News"
             year={new Date().getFullYear()}
           />
           <div className="flex gap-6 sm:mt-0 mt-4 sm:justify-center">
             <Footer.Icon href="#" icon={BsFacebook} />
             <Footer.Icon href="#" icon={BsInstagram} />
             <Footer.Icon href="#" icon={BsTwitter} />
-            <Footer.Icon
-              href="https://github.com/sahandghavidel"
-              icon={BsGithub}
-            />
+            <Footer.Icon href="#" icon={BsGithub} />
             <Footer.Icon href="#" icon={BsDribbble} />
           </div>
         </div>
