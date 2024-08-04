@@ -83,7 +83,7 @@ export default function Header() {
             News
           </Link>
           <div className="flex md:order-2">
-            <form className="rounded-xl">
+            <form className="rounded-xl my-2">
               <div className=" flex justify-center gap-2">
                 <div>
                   <TextInput
@@ -97,7 +97,11 @@ export default function Header() {
                 </div>
               </div>
             </form>
-
+            <button className="flex items-center justify-center  my-3  text-sm font-medium text-white rounded-lg shadow-lg bg-blue-500 mx-2">
+              <Link to="/sign-in" className="mx-4">
+                Login
+              </Link>
+            </button>
             <button
               data-collapse-toggle="navbar-search"
               type="button"
