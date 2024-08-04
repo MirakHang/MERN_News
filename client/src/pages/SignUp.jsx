@@ -1,7 +1,43 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { Alert, Spinner } from "flowbite-react";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function SignUp() {
+  const [formData, setFormData] = useState({});
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const handleChnage = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!formData.username || !formData.email || !formData.password) {
+      return setErrorMessage("Please fill out all fields.");
+    }
+    try {
+      setLoading(true);
+      setErrorMessage(null);
+      const res = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: { "content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      // return setErrorMessage("SignUp Successful");
+      const data = await res.json();
+      if (data.success === false) {
+        return setErrorMessage(data.message);
+      }
+      if (res.ok) {
+        navigate("/sign-in");
+      }
+      setLoading(false);
+    } catch (error) {
+      setErrorMessage(error.message);
+      setLoading(false);
+    }
+  };
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
       <div className="flex flex-col items-center justify-center px-6 pt-4 mx-auto md:h-screen lg:py-0">
@@ -14,12 +50,21 @@ export default function SignUp() {
           </span>
           News
         </Link>
-        <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+        <div className=" bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-4 space-y-4 md:space-y-6 sm:p-8">
+            {errorMessage && (
+              <Alert className="mt-5" color="failure">
+                {errorMessage}
+              </Alert>
+            )}
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
               Create an account
             </h1>
-            <form className="space-y-4 md:space-y-2" action="#">
+            <form
+              className="space-y-4 md:space-y-2"
+              action="#"
+              onSubmit={handleSubmit}
+            >
               <div>
                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                   User Name
@@ -30,6 +75,7 @@ export default function SignUp() {
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="User name"
                   required=""
+                  onChange={handleChnage}
                 />
               </div>
               <div>
@@ -42,6 +88,7 @@ export default function SignUp() {
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="name@company.com"
                   required=""
+                  onChange={handleChnage}
                 />
               </div>
               <div>
@@ -55,6 +102,7 @@ export default function SignUp() {
                   placeholder="••••••••"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required=""
+                  onChange={handleChnage}
                 />
               </div>
               <div>
@@ -71,10 +119,18 @@ export default function SignUp() {
                 />
               </div>
               <button
-                className="flex items-center px-8 justify-center text-lg font-medium text-white rounded-xl shadow-lg bg-blue-500  mx-auto"
+                className="flex py-2 items-center px-8 justify-center text-lg font-medium text-white rounded-xl shadow-lg bg-blue-500  mx-auto"
                 type="submit"
+                disabled={loading}
               >
-                <Link className=" my-2">SignUp</Link>
+                {loading ? (
+                  <>
+                    <Spinner size="sm" />
+                    <span className="pl-3">Loading...</span>
+                  </>
+                ) : (
+                  "SignUp"
+                )}
               </button>
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Already have an account?{" "}
