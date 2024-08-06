@@ -1,13 +1,16 @@
 import { Link, useLocation } from "react-router-dom";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { FaSearch } from "react-icons/fa";
-import { Avatar, Dropdown, TextInput } from "flowbite-react";
+import { Avatar, Dropdown, TextInput, Button } from "flowbite-react";
 import { MdDarkMode } from "react-icons/md";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { toggleTheme } from "../redux/theme/themeSlice.js";
+import { FaMoon, FaSun } from "react-icons/fa";
 
 export default function Header() {
   const location = useLocation();
+  const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
+  const { theme } = useSelector((state) => state.theme);
 
   const navItems = [
     { name: "Home", path: "/" },
@@ -17,7 +20,7 @@ export default function Header() {
 
   return (
     <div>
-      <nav className="bg-white border-gray-200 dark:bg-gray-900">
+      <nav className="bg-white border-gray-200 dark:bg-gray-900 pb-2">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto pt-2 px-2">
           <Link
             to="/"
@@ -31,7 +34,7 @@ export default function Header() {
           <div className="flex md:order-2">
             <div className="flex justify-center gap-2 ">
               <div className="w-[200px]">
-                <form className="max-w-md mx-auto mt-1 hidden sm:block ">
+                <form className="max-w-md mx-auto mt-2 hidden sm:block ">
                   <label
                     htmlFor="default-search"
                     className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
@@ -40,21 +43,28 @@ export default function Header() {
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 end-0 pr-4 flex items-center ps-3 pointer-events-none cursor-pointer">
-                      <FaSearch className="text-gray-500 text-xs" />
+                      {/* <FaSearch className="text-gray-500 text-xs" /> */}
                     </div>
                     <input
                       type="search"
                       id="default-search"
-                      className="block p-2 ps-8 text-xs text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-auto"
+                      className="block ps-8 text-xs text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-auto"
                       placeholder="Search..."
                       required
                     />
                   </div>
                 </form>
               </div>
-              <div>
-                <MdDarkMode className="hidden sm:flex justify-center items-center border-2 rounded-full p-2 w-10 h-10 mr-2 border-blue-300 hover:text-blue-600 cursor-pointer" />
-              </div>
+              <button
+                className="w-8 h-8 mt-1.5 hidden bg-[#111827] border-2 border-gray-600 rounded-full sm:flex items-center justify-center"
+                onClick={() => dispatch(toggleTheme())}
+              >
+                {theme === "light" ? (
+                  <FaSun className="text-black" />
+                ) : (
+                  <FaMoon />
+                )}
+              </button>
             </div>
             {currentUser ? (
               <Dropdown
@@ -121,7 +131,7 @@ export default function Header() {
           </div>
         </div>
         <div className="flex justify-center gap-2 ">
-          <div className="w-[200px]">
+          <div className="">
             <form className="max-w-md mx-auto mt-1 sm:hidden block ">
               <label
                 htmlFor="default-search"
@@ -131,7 +141,7 @@ export default function Header() {
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 end-0 pr-4 flex items-center ps-3 pointer-events-none cursor-pointer">
-                  <FaSearch className="text-gray-500 text-xs" />
+                  {/* <FaSearch className="text-gray-500 text-xs" /> */}
                 </div>
                 <input
                   type="search"
@@ -143,9 +153,12 @@ export default function Header() {
               </div>
             </form>
           </div>
-          <div>
-            <MdDarkMode className="sm:hidden flex justify-center items-center my-2 w-6 h-6" />
-          </div>
+          <button
+            className="w-8 h-8 mt-1 sm:hidden bg-[#111827] border-2 border-gray-600 rounded-full flex items-center justify-center  transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+            onClick={() => dispatch(toggleTheme())}
+          >
+            {theme === "light" ? <FaSun className="text-black" /> : <FaMoon />}
+          </button>
         </div>
       </nav>
     </div>
