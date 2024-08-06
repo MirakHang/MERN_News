@@ -1,11 +1,13 @@
 import { Link, useLocation } from "react-router-dom";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { FaSearch } from "react-icons/fa";
-import { TextInput } from "flowbite-react";
+import { Avatar, Dropdown, TextInput } from "flowbite-react";
 import { MdDarkMode } from "react-icons/md";
+import { useSelector } from "react-redux";
 
 export default function Header() {
   const location = useLocation();
+  const { currentUser } = useSelector((state) => state.user);
 
   const navItems = [
     { name: "Home", path: "/" },
@@ -51,14 +53,41 @@ export default function Header() {
                 </form>
               </div>
               <div>
-                <MdDarkMode className="hidden sm:flex justify-center items-center my-2 w-6 h-6" />
+                <MdDarkMode className="hidden sm:flex justify-center items-center border-2 rounded-full p-2 w-10 h-10 mr-2 border-blue-300 hover:text-blue-600 cursor-pointer" />
               </div>
             </div>
-            <button className="flex items-center justify-center  my-1  text-sm font-medium text-white rounded-lg shadow-lg bg-blue-500 mx-2">
-              <Link to="/sign-in" className="mx-4">
-                Login
-              </Link>
-            </button>
+            {currentUser ? (
+              <Dropdown
+                arrowIcon={false}
+                inline
+                label={
+                  <Avatar
+                    alt="user"
+                    img={currentUser.profilePicture}
+                    rounded
+                    className=""
+                  />
+                }
+              >
+                <Dropdown.Header>
+                  <span className="block text-sm">@{currentUser.username}</span>
+                  <span className="block text-sm font-medium truncate">
+                    @{currentUser.email}
+                  </span>
+                </Dropdown.Header>
+                <Link to={"/dashboard?tab=profile"}>
+                  <Dropdown.Item>Profile</Dropdown.Item>
+                </Link>
+                <Dropdown.Divider />
+                <Dropdown.Item>Sign Out</Dropdown.Item>
+              </Dropdown>
+            ) : (
+              <button className="flex items-center justify-center  my-1  text-sm font-medium text-white rounded-lg shadow-lg bg-blue-500 mx-2">
+                <Link to="/sign-in" className="mx-4">
+                  Login
+                </Link>
+              </button>
+            )}
             <button
               data-collapse-toggle="navbar-search"
               type="button"
