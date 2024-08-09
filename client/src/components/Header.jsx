@@ -1,10 +1,10 @@
 import { Link, useLocation } from "react-router-dom";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { Avatar, Dropdown, TextInput, Button } from "flowbite-react";
-import { MdDarkMode } from "react-icons/md";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleTheme } from "../redux/theme/themeSlice.js";
 import { FaMoon, FaSun } from "react-icons/fa";
+import { signoutSuccess } from "../redux/user/userSlice.js";
 
 export default function Header() {
   const location = useLocation();
@@ -17,6 +17,22 @@ export default function Header() {
     { name: "About", path: "/about" },
     { name: "Projects", path: "/projects" },
   ];
+
+  const handleSignout = async () => {
+    try {
+      const res = await fetch("/api/user/signout", {
+        method: "POST",
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        dispatch(signoutSuccess());
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   return (
     <div>
@@ -89,7 +105,7 @@ export default function Header() {
                   <Dropdown.Item>Profile</Dropdown.Item>
                 </Link>
                 <Dropdown.Divider />
-                <Dropdown.Item>Sign Out</Dropdown.Item>
+                <Dropdown.Item onClick={handleSignout}>Sign Out</Dropdown.Item>
               </Dropdown>
             ) : (
               <button className="flex items-center justify-center  my-1  text-sm font-medium text-white rounded-lg shadow-lg bg-blue-500 mx-2">
