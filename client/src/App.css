@@ -40,3 +40,9 @@
 .read-the-docs {
   color: #888;
 } */
+
+.poem {
+  overflow: scroll;
+  scrollbar-color: red orange;
+  scrollbar-width: thin;
+}

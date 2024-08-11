@@ -91,7 +91,7 @@ export default function Header() {
                     alt="user"
                     img={currentUser.profilePicture}
                     rounded
-                    className=""
+                    className="px-2"
                   />
                 }
               >
