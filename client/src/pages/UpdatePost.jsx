@@ -1,5 +1,5 @@
 import { Alert, Button, FileInput, Select, TextInput } from "flowbite-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import {
@@ -12,15 +12,39 @@ import {
 import { app } from "../firebase";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-export default function CreatePost() {
+export default function UpdatePost() {
   const [file, setFile] = useState([]);
   const navigate = useNavigate();
   const [imageUploadProgress, setImageUploadProgress] = useState(null);
   const [imageUploadError, setImageUploadError] = useState(null);
   const [formData, setFormData] = useState({});
-  const [publishError, setPublishError] = useState(null);
+  const [updateError, setUpdateError] = useState(null);
+  const { postId } = useParams();
+  const { currentUser } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    try {
+      const fetchPost = async () => {
+        const res = await fetch(`/api/post/getposts?postId=${postId}`);
+        const data = await res.json();
+        if (!res.ok) {
+          //   console.log(data.message);
+          setUpdateError(data.message);
+          return;
+        }
+        if (res.ok) {
+          setUpdateError(null);
+          setFormData(data.posts[0]);
+        }
+      };
+      fetchPost();
+    } catch (error) {
+      //   console.log(error);
+    }
+  }, [postId]);
 
   const handleUploadImage = async () => {
     try {
@@ -62,29 +86,32 @@ export default function CreatePost() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("/api/post/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const res = await fetch(
+        `/api/post/updatepost/${formData._id}/${currentUser._id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
       const data = await res.json();
       if (!res.ok) {
-        setPublishError(data.message);
+        setUpdateError(data.message);
         return;
       }
       if (res.ok) {
-        setPublishError(null);
+        setUpdateError(null);
         navigate(`/post/${data.slug}`);
       }
     } catch (error) {
-      setPublishError("Something went wrong");
+      setUpdateError("Something went wrong");
     }
   };
   return (
-    <div className="p-3 lg:px-8 md:px-6 px-3 py-4 max-w-3xl mx-auto container">
-      <h1 className="text-center text-3xl my-7 font-semibold">Create a post</h1>
+    <div className="lg:px-8 md:px-6 px-3 py-4 max-w-3xl mx-auto container">
+      <h1 className="text-center text-3xl my-7 font-semibold">Update a post</h1>
       <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
         <div className="flex flex-col gap-4 sm:flex-row justify-between">
           <TextInput
@@ -96,11 +123,13 @@ export default function CreatePost() {
             onChange={(e) =>
               setFormData({ ...formData, title: e.target.value })
             }
+            value={formData.title}
           />
           <Select
             onChange={(e) =>
               setFormData({ ...formData, category: e.target.value })
             }
+            value={formData.category}
           >
             <option value="uncategorized">Select a category</option>
             <option value="national">National</option>
@@ -109,7 +138,7 @@ export default function CreatePost() {
           </Select>
         </div>
         <div
-          className="flex flex-col md:flex-row lg-flex-row sm:flex-row gap-4 items-center justify-between border-dotted p-3"
+          className="flex flex-col sm:flex-row md:flex-row lg:flex-row gap-4 items-center justify-between border-dotted p-3"
           style={{ border: "red", border: "dashed", borderWidth: "1px" }}
         >
           <div>
@@ -150,6 +179,7 @@ export default function CreatePost() {
         )}
         <ReactQuill
           theme="snow"
+          value={formData.content}
           placeholder="Write something..."
           className="h-72 "
           required
@@ -160,12 +190,12 @@ export default function CreatePost() {
             setFormData({ ...formData, content: value });
           }}
         />
-        <Button className="bg-blue-600" type="submit">
-          Publish
+        <Button className="bg-green-600" type="submit">
+          Update
         </Button>
-        {publishError && (
+        {updateError && (
           <Alert className="mt-5" color="failure">
-            {publishError}
+            {updateError}
           </Alert>
         )}
       </form>

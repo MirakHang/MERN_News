@@ -277,6 +277,10 @@ export default function DashProfile() {
         onClose={() => setShowDeleteModal(false)}
         popup
         size="md"
+        style={{
+          padding: "0",
+          background: " rgba(	54,	62,	70, 0.6)",
+        }}
       >
         <Modal.Header />
         <Modal.Body>

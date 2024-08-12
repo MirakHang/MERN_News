@@ -1,26 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { MdDelete } from "react-icons/md";
-import { FiEdit } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { FaCheck, FaTimes } from "react-icons/fa";
 import { Modal, Button } from "flowbite-react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 
-export default function DashPost() {
-  const [userPosts, setUserPosts] = useState([]);
+export default function DashUsers() {
+  const [users, setUsers] = useState([]);
   const [showMore, setShowMore] = useState(true);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [postIdToDelete, setPostIdToDelete] = useState("");
+  const [userIdToDelete, setUserIdToDelete] = useState("");
   const { currentUser } = useSelector((state) => state.user);
 
   useEffect(() => {
-    const fetchPosts = async () => {
+    const fetchUsers = async () => {
       try {
-        const res = await fetch(`api/post/getposts?userId=${currentUser._id}`);
+        const res = await fetch(`api/user/getusers`);
         const data = await res.json();
         if (res.ok) {
-          setUserPosts(data.posts);
-          if (data.posts.length < 8) {
+          setUsers(data.users);
+          if (data.users.length < 8) {
             setShowMore(false);
           }
         }
@@ -29,20 +28,18 @@ export default function DashPost() {
       }
     };
     if (currentUser.isAdmin) {
-      fetchPosts();
+      fetchUsers();
     }
   }, [currentUser._id]);
 
   const handleShowMore = async () => {
-    const startIndex = userPosts.length;
+    const startIndex = users.length;
     try {
-      const res = await fetch(
-        `/api/post/getposts?userId=${currentUser._id}&startIndex=${startIndex}`
-      );
+      const res = await fetch(`/api/user/getusers?&startIndex=${startIndex}`);
       const data = await res.json();
       if (res.ok) {
-        setUserPosts((prev) => [...prev, ...data.posts]);
-        if (data.posts.length < 8) {
+        setUsers((prev) => [...prev, ...data.users]);
+        if (data.users.length < 8) {
           setShowMore(false);
         }
       }
@@ -51,27 +48,7 @@ export default function DashPost() {
     }
   };
 
-  const handleDeletePost = async () => {
-    setShowDeleteModal(false);
-    try {
-      const res = await fetch(
-        `/api/post/deletepost/${postIdToDelete}/${currentUser._id}`,
-        {
-          method: "DELETE",
-        }
-      );
-      const data = await res.json();
-      if (!res.ok) {
-        console.log(data.message);
-      } else {
-        setUserPosts((prev) =>
-          prev.filter((post) => post._id !== postIdToDelete)
-        );
-      }
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
+  const handleDeleteUser = async () => {};
 
   return (
     <div
@@ -81,7 +58,7 @@ export default function DashPost() {
         overflowY: "auto",
       }}
     >
-      {currentUser.isAdmin && userPosts.length > 0 ? (
+      {currentUser.isAdmin && users.length > 0 ? (
         <>
           <div
             className="grid  justify-center items-center md:grid-cols-1 lg:grid-cols-2 grid-cols-1 gap-0 overflow-y-scroll scrollbar  scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500"
@@ -89,31 +66,39 @@ export default function DashPost() {
               overflowY: "auto",
             }}
           >
-            {userPosts.map((post) => (
-              <div className="p-2 mt-2" key={post.slug}>
+            {users.map((user) => (
+              <div className="p-2 mt-2" key={user._id}>
                 <div className="flex flex-col gap-1 md:flex-row sm:flex-row items-center bg-gray-100 border border-gray-200 rounded-lg shadow dark:border-gray-700 dark:bg-gray-800">
-                  <Link to={`/post/${post.slug}`}>
-                    <div className=" md:w-1/2">
-                      <img
-                        className="object-cover h-48 w-80 rounded-t-lg md:rounded-none md:rounded-s-lg p-2"
-                        src={post.image}
-                        alt="Cricket bat with wicket"
-                      />
-                    </div>
-                  </Link>
+                  <div className=" md:w-1/2">
+                    <img
+                      className="object-cover rounded-full p-2"
+                      style={{
+                        height: "160px",
+                        width: "250px",
+                      }}
+                      src={user.profilePicture}
+                      alt={user.profilePicture}
+                    />
+                  </div>
                   <div className="flex flex-col justify-between p-2 leading-normal w-full md:w-1/2">
-                    <Link to={`/post/${post.slug}`}>
-                      <h5 className="mb-2 text-2xl font-medium tracking-tight text-gray-900 dark:text-white">
-                        {post.title}
-                      </h5>
-                    </Link>
-                    <p className="mb-3 font-normal text-gray-700 dark:text-gray-400 line-clamp-3 uppercase">
-                      {post.category}
+                    <h5 className="mb-2 text-2xl font-medium tracking-tight text-gray-900 dark:text-white">
+                      {user.username}
+                    </h5>
+                    <p className="mb-2 font-normal text-gray-700 dark:text-gray-400 line-clamp-3 ">
+                      User Name: {user.username}
+                    </p>
+                    <p className="mb-2 font-normal text-gray-700 dark:text-gray-400 line-clamp-3 flex gap-2">
+                      Admin:
+                      {user.isAdmin ? (
+                        <FaCheck className="text-green-500 self-center w-5 h-5" />
+                      ) : (
+                        <FaTimes className="text-red-500 self-center w-5 h-5" />
+                      )}
                     </p>
                     <p
-                      className="mb-3 font-normal text-gray-700 dark:text-gray-400 "
+                      className="font-normal text-gray-700 dark:text-gray-400 "
                       style={{
-                        height: "45px",
+                        height: "50px",
                         display: "-webkit-box",
                         WebkitLineClamp: 2,
                         WebkitBoxOrient: "vertical",
@@ -121,14 +106,13 @@ export default function DashPost() {
                         textOverflow: "ellipsis",
                       }}
                     >
-                      {post.content}
+                      Email: {user.email}
                     </p>
                     <div>
                       <span className="text-gray-400">
-                        Updated On:{" "}
-                        {new Date(post.updatedAt).toLocaleDateString()}
+                        Created Date:{" "}
+                        {new Date(user.createdAt).toLocaleDateString()}
                       </span>
-                      <span></span>
                     </div>
                     <div className="flex gap-4">
                       <div className="flex items-center gap-1">
@@ -137,19 +121,11 @@ export default function DashPost() {
                           className="dark:hover:text-white  text-red-600 px-2 py-1 rounded-md transition-colors duration-200"
                           onClick={() => {
                             setShowDeleteModal(true);
-                            setPostIdToDelete(post._id);
+                            setUserIdToDelete(user._id);
                           }}
                         >
                           Delete
                         </button>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <FiEdit className="w-4 h-4 text-blue-600" />
-                        <Link to={`/update-post/${post._id}`}>
-                          <button className="dark:hover:text-white hover:bg-blue-600 text-blue-600 px-2 py-1 rounded-md transition-colors duration-200">
-                            Edit
-                          </button>
-                        </Link>
                       </div>
                     </div>
                   </div>
@@ -185,10 +161,10 @@ export default function DashPost() {
           <div className="text-center">
             <HiOutlineExclamationCircle className="h-14 w-14 text-red-400 dark:text-gray-200 mb-4 mx-auto" />
             <h3 className="mb-5 text-lg text-gray-500 dark:text-gray-400">
-              Are you sure you want to delete this post?
+              Are you sure you want to delete this user?
             </h3>
             <div className="flex justify-center gap-4">
-              <Button color="failure" onClick={handleDeletePost}>
+              <Button color="failure" onClick={handleDeleteUser}>
                 Yes, I am sure
               </Button>
               <Button onClick={() => setShowDeleteModal(false)} color="gray">
