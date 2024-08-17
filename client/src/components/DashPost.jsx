@@ -120,9 +120,8 @@ export default function DashPost() {
                         overflow: "hidden",
                         textOverflow: "ellipsis",
                       }}
-                    >
-                      {post.content}
-                    </p>
+                      dangerouslySetInnerHTML={{ __html: post && post.content }}
+                    ></p>
                     <div>
                       <span className="text-gray-400">
                         Updated On:{" "}

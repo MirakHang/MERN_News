@@ -245,6 +245,17 @@ export default function DashProfile() {
             </Button>
           </Link>
         )}
+        {currentUser.isAdmin && (
+          <Link to={"/create-player"}>
+            <Button
+              type="button"
+              gradientDuoTone="purpleToPink"
+              className="w-full"
+            >
+              Add New Player
+            </Button>
+          </Link>
+        )}
       </form>
       <div className="text-red-500 flex justify-between mt-4">
         <span

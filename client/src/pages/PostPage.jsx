@@ -8,13 +8,13 @@ export default function PostPage() {
   const { postSlug } = useParams();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [post, setPost] = useState(null);
+  const [post, setPost] = useState([]);
 
   useEffect(() => {
     const fetchPost = async () => {
       try {
         setLoading(true);
-        const res = await fetch(`/api/post/getposts?slug=${postSlug}`);
+        const res = await fetch("/api/post/getposts");
         const data = await res.json();
         if (!res.ok) {
           setError(true);
@@ -41,47 +41,6 @@ export default function PostPage() {
     );
   return (
     <div className="px-2">
-      {/* <div
-        className=" mx-auto my-8 bg-white rounded-md shadow-md"
-        // style={{ width: "280px" }}
-      >
-        <div className="">
-          <div className="md:shrink-0">
-            <img
-              className="h-28 object-cover rounded-t-md md:w-48 justify-center items-center flex my-auto"
-              src={post.image}
-              alt="Card Image"
-              style={{
-                width: "280px",
-              }}
-            />
-          </div>
-          <div className="p-4">
-            <h3
-              href="#"
-              className="block text-xl leading-tight font-medium  hover:underline text-gray-900"
-            >
-              {post.title}
-            </h3>
-            <div className="tracking-wide text-sm text-gray-800 font-semibold">
-              Category: {post.category}
-            </div>
-            <p className="mt-2 text-gray-700 text-sm line-clamp-2">
-              {post.content}
-            </p>
-            <div className="flex items-center mt-2 gap-4">
-              <div className="text-gray-500 hover:text-indigo-600 flex justify-center items-center">
-                <FaRegHeart />
-                <span className="ml-2">Like</span>
-              </div>
-              <div className="text-gray-500 hover:text-indigo-600 flex justify-center items-center">
-                <LiaCommentDots className="h-5 w-5" />
-                <span className="ml-2">Comment</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> */}
       <h1 className="text-3xl mt-10 p-3 text-center font-serif max-w-2xl mx-auto lg:text-4xl">
         {post.title}
       </h1>
