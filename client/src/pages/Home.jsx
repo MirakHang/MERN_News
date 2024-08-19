@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { MdDelete } from "react-icons/md";
 import { FiEdit } from "react-icons/fi";
+import { formatDistanceToNow } from "date-fns";
 import { Link } from "react-router-dom";
 import { Modal, Button, Spinner } from "flowbite-react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
@@ -15,6 +16,31 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const { currentUser } = useSelector((state) => state.user);
 
+  // for players list
+  const [playersList, setPlayersList] = useState([]);
+
+  // fetching players
+  useEffect(() => {
+    const fetchPlayers = async () => {
+      try {
+        const res = await fetch(
+          `/api/player/getplayers?userId=${currentUser._id}`
+        );
+        const data = await res.json();
+        if (res.ok) {
+          setPlayersList(data.players);
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    if (currentUser.isAdmin) {
+      fetchPlayers();
+    }
+  }, [currentUser._id]);
+  console.log(playersList);
+
+  // fetching posts
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -58,6 +84,28 @@ export default function Home() {
   return (
     <div className="container px-2 mx-auto">
       <Slider />
+      <div className="flex justify-center items-center">
+        {playersList.map((player) => (
+          <Link
+            key={player.slug}
+            to={`/player/${player.slug}`}
+            className="text-center my-4"
+            style={{ width: "100px" }}
+          >
+            <div className="w-12 h-12 rounded-full overflow-hidden border border-gray-300 mx-auto bg-gray-100 flex items-center justify-center">
+              <img
+                src={player.playerImage}
+                alt="Player"
+                className="w-full h-full object-cover"
+              />
+            </div>
+
+            <p className="mt-1 text-xs sm:text-sm md:text-sm lg:text-sm font-medium text-gray-700 dark:text-gray-200">
+              {player.playerName}
+            </p>
+          </Link>
+        ))}
+      </div>
       {loading ? (
         <div
           style={{ marginBottom: "40px", marginTop: "40px" }}

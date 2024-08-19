@@ -24,44 +24,114 @@ export const createplayer = async (req, res, next) => {
   }
 };
 
+// export const getplayers = async (req, res, next) => {
+//   try {
+//     const startIndex = parseInt(req.body.startIndex) || 0;
+//     const limit = parseInt(req.query.limit) || 2;
+//     const sortDirection = req.query.order === "asc" ? 1 : -1;
+
+//     const players = await Player.find({
+//       ...(req.query.playerId && { playerId: req.query.playerId }),
+//       ...(req.query.playerName && { playerName: req.query.playerName }),
+//       ...(req.query.slug && { slug: req.query.slug }),
+//       ...(req.query.searchTerm && {
+//         $or: [
+//           { playerName: { $regex: req.query.searchTerm, $options: "i" } },
+//           { role: { $regex: req.query.searchTerm, $options: "i" } },
+//           { battingStyle: { $regex: req.query.searchTerm, $options: "i" } },
+//           { bowlingStyle: { $regex: req.query.searchTerm, $options: "i" } },
+//         ],
+//       }),
+//     })
+
+//       .sort({ updatedAt: sortDirection })
+//       .skip(startIndex)
+//       .limit(limit);
+
+//     const totalPlayer = await Player.countDocuments();
+
+//     const now = new Date();
+//     const oneMonthAgo = new Date(
+//       now.getFullYear(),
+//       now.getMonth() - 1,
+//       now.getDate()
+//     );
+
+//     const lastMonthPlayers = await Player.countDocuments({
+//       createdAt: { $gte: oneMonthAgo },
+//     });
+
+//     console.log(players);
+//     res.status(200).json({
+//       players,
+//       totalPlayer,
+//       lastMonthPlayers,
+//     });
+//   } catch (error) {
+//     next(error);
+//   }
+// };
+
 export const getplayers = async (req, res, next) => {
   try {
-    const startIndex = parseInt(req.body.startIndex) || 0;
-    const limit = parseInt(req.query.limit) || 12;
+    // Use req.query to get startIndex from query parameters
+    const startIndex = parseInt(req.query.startIndex) || 0; // Changed from req.body
+    const limit = parseInt(req.query.limit) || 4;
     const sortDirection = req.query.order === "asc" ? 1 : -1;
-    const players = await Player.find({
-      ...(req.query.userId && { userId: req.query.userId }),
+
+    // Build query filter dynamically
+    const filter = {
+      ...(req.query.playerId && { playerId: req.query.playerId }),
       ...(req.query.playerName && { playerName: req.query.playerName }),
       ...(req.query.slug && { slug: req.query.slug }),
       ...(req.query.searchTerm && {
         $or: [
           { playerName: { $regex: req.query.searchTerm, $options: "i" } },
           { role: { $regex: req.query.searchTerm, $options: "i" } },
+          { battingStyle: { $regex: req.query.searchTerm, $options: "i" } },
+          { bowlingStyle: { $regex: req.query.searchTerm, $options: "i" } },
         ],
       }),
-    })
+    };
+
+    // Query players with pagination and sorting
+    const players = await Player.find(filter)
       .sort({ updatedAt: sortDirection })
       .skip(startIndex)
       .limit(limit);
 
-    const totalPlayer = await Player.countDocuments();
+    // Get total count of documents for pagination
+    const totalPlayer = await Player.countDocuments(filter);
 
+    // Get count of documents created within the last month
     const now = new Date();
     const oneMonthAgo = new Date(
       now.getFullYear(),
       now.getMonth() - 1,
       now.getDate()
     );
-
     const lastMonthPlayers = await Player.countDocuments({
       createdAt: { $gte: oneMonthAgo },
     });
 
+    console.log(players);
     res.status(200).json({
       players,
       totalPlayer,
       lastMonthPlayers,
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deleteplayer = async (req, res, next) => {
+  if (!req.user.isAdmin || req.user.id !== req.params.userId) {
+    return next(errorHandler(403, "You are not allowed to delete this player"));
+  }
+  try {
+    await Player.findByIdAndDelete(req.params.playerId);
+    res.status(200).json("The player has been deleted");
   } catch (error) {
     next(error);
   }
