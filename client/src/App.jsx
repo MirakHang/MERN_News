@@ -14,6 +14,9 @@ import CreatePost from "./pages/CreatePost";
 import CreatePlayer from "./pages/CreatePlayer";
 import UpdatePost from "./pages/UpdatePost";
 import PostPage from "./pages/PostPage";
+import UpdatePlayer from "./pages/UpdatePlayer";
+import PlayerPage from "./pages/PlayerPage";
+import ScrollToTop from "./components/ScrollToTop";
 
 export default function App() {
   return (
@@ -22,6 +25,7 @@ export default function App() {
       style={{ minHeight: "100vh" }}
     >
       <BrowserRouter>
+        <ScrollToTop />
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -30,13 +34,15 @@ export default function App() {
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/post/:postSlug" element={<PostPage />} />
+          <Route path="/player/:playerSlug" element={<PlayerPage />} />
           <Route element={<PrivateRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />
           </Route>
           <Route element={<OnlyAdminPrivateRoute />}>
             <Route path="/create-post" element={<CreatePost />} />
-            <Route path="/create-player" element={<CreatePlayer />} />
             <Route path="/update-post/:postId" element={<UpdatePost />} />
+            <Route path="/create-player" element={<CreatePlayer />} />
+            <Route path="/update-player/:playerId" element={<UpdatePlayer />} />
           </Route>
         </Routes>
         <Footer />

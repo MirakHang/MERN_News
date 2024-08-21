@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Button, Spinner } from "flowbite-react";
 import { FaRegHeart } from "react-icons/fa";
 import { LiaCommentDots } from "react-icons/lia";
+import CommentSection from "../components/CommentSection";
 
 export default function PostPage() {
   const { postSlug } = useParams();
@@ -10,11 +11,35 @@ export default function PostPage() {
   const [error, setError] = useState(false);
   const [post, setPost] = useState([]);
 
+  // useEffect(() => {
+  //   const fetchPost = async () => {
+  //     try {
+  //       setLoading(true);
+  //       const res = await fetch("/api/post/getposts");
+  //       const data = await res.json();
+  //       if (!res.ok) {
+  //         setError(true);
+  //         setLoading(false);
+  //         return;
+  //       }
+  //       if (res.ok) {
+  //         setPost(data.posts[0]);
+  //         setLoading(false);
+  //         setError(false);
+  //       }
+  //     } catch (error) {
+  //       setError(true);
+  //       setLoading(false);
+  //     }
+  //   };
+  //   fetchPost();
+  // }, [postSlug]);
+
   useEffect(() => {
     const fetchPost = async () => {
       try {
         setLoading(true);
-        const res = await fetch("/api/post/getposts");
+        const res = await fetch(`/api/post/getposts?slug=${postSlug}`);
         const data = await res.json();
         if (!res.ok) {
           setError(true);
@@ -33,6 +58,7 @@ export default function PostPage() {
     };
     fetchPost();
   }, [postSlug]);
+
   if (loading)
     return (
       <div className="flex justify-center items-center ">
@@ -104,6 +130,9 @@ export default function PostPage() {
           </div>
         </div>
       </div> */}
+      <div>
+        <CommentSection postId={post._id} />
+      </div>
     </div>
   );
 }

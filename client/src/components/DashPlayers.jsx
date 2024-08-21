@@ -66,7 +66,7 @@ export default function DashPlayers() {
           );
           return [...prev, ...newPlayers];
         });
-        if (data.players.length < 4) {
+        if (data.players.length < 12) {
           // Match the limit used in server-side
           setShowMore(false);
         }
@@ -91,14 +91,18 @@ export default function DashPlayers() {
               }}
             >
               {playersList.map((player) => (
-                <div className="p-2 my-0" key={player.slug}>
+                <div
+                  className="p-2 my-0"
+                  key={player.slug}
+                  to={`/player/${player.slug}`}
+                >
                   <ul className="divide-y divide-gray-200 dark:divide-gray-700 py-0 my-0">
                     <li className="py-3 border-b border-gray-500">
                       <div className="flex items-center gap-3">
                         <div className="shrink-0">
                           <img
-                            alt={player.playerImage}
-                            src={player.playerImage}
+                            alt={player.image}
+                            src={player.image}
                             className="rounded-full w-14 h-14"
                           />
                         </div>

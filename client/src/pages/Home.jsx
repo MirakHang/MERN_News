@@ -50,7 +50,7 @@ export default function Home() {
         if (res.ok) {
           setLoading(false);
           setUserPosts(data.posts);
-          if (data.posts.length < 8) {
+          if (data.posts.length < 9) {
             setShowMore(false);
           }
         }
@@ -64,15 +64,22 @@ export default function Home() {
   }, [currentUser._id]);
 
   const handleShowMore = async () => {
-    const startIndex = userPosts.length;
+    const startIndex = playersList.length;
     try {
       const res = await fetch(
-        `/api/post/getposts?userId=${currentUser._id}&startIndex=${startIndex}`
+        `/api/player/getplayers?userId=${currentUser._id}&startIndex=${startIndex}&limit=4`
       );
       const data = await res.json();
       if (res.ok) {
-        setUserPosts((prev) => [...prev, ...data.posts]);
-        if (data.posts.length < 8) {
+        setPlayersList((prev) => {
+          const existingIds = new Set(prev.map((player) => player._id));
+          const newPlayers = data.players.filter(
+            (player) => !existingIds.has(player._id)
+          );
+          return [...prev, ...newPlayers];
+        });
+        if (data.players.length < 2) {
+          // Match the limit used in server-side
           setShowMore(false);
         }
       }
@@ -84,28 +91,39 @@ export default function Home() {
   return (
     <div className="container px-2 mx-auto">
       <Slider />
-      <div className="flex justify-center items-center">
-        {playersList.map((player) => (
-          <Link
-            key={player.slug}
-            to={`/player/${player.slug}`}
-            className="text-center my-4"
-            style={{ width: "100px" }}
-          >
-            <div className="w-12 h-12 rounded-full overflow-hidden border border-gray-300 mx-auto bg-gray-100 flex items-center justify-center">
-              <img
-                src={player.playerImage}
-                alt="Player"
-                className="w-full h-full object-cover"
-              />
-            </div>
+      <div className="flex justify-center mx-auto ">
+        <div className="flex justify-start items-center w-auto gap-4 custom-scrollbar overflow-x-auto mx-0">
+          {playersList.map((player) => (
+            <Link
+              key={player.slug}
+              to={`/player/${player.slug}`}
+              className="text-center my-4"
+              style={{ width: "100px" }}
+            >
+              <div className="w-14 h-14 overflow-hidden mx-auto bg-gray-100 flex items-center justify-center rounded-full">
+                <img
+                  src={player.image}
+                  alt="Player"
+                  className="w-full h-full object-cover"
+                />
+              </div>
 
-            <p className="mt-1 text-xs sm:text-sm md:text-sm lg:text-sm font-medium text-gray-700 dark:text-gray-200">
-              {player.playerName}
-            </p>
-          </Link>
-        ))}
+              <p className="mt-1 text-xs sm:text-sm md:text-sm lg:text-sm font-medium text-gray-700 dark:text-gray-200">
+                {player.playerName}
+              </p>
+            </Link>
+          ))}
+          {showMore && (
+            <button
+              className="text-blue-600 text-xs mb-2 mr-2"
+              onClick={handleShowMore}
+            >
+              show <br></br>more
+            </button>
+          )}
+        </div>
       </div>
+
       {loading ? (
         <div
           style={{ marginBottom: "40px", marginTop: "40px" }}
@@ -125,9 +143,11 @@ export default function Home() {
               >
                 {userPosts.map((post) => (
                   <Link
+                    // to={`/post/${post.slug}`}
                     to={`/post/${post.slug}`}
                     className="mx-auto mb-2 bg-white rounded-md shadow-md  flex-grow w-full dark:border-gray-700 dark:bg-gray-800"
-                    key={post.title}
+                    key={post._id}
+                    post={post}
                   >
                     <div>
                       <div className="pt-2 px-3 pb-0">
@@ -186,14 +206,6 @@ export default function Home() {
                   </Link>
                 ))}
               </div>
-              {showMore && (
-                <button
-                  className="w-full mb-2 text-blue-600 self-center text-sm py-7"
-                  onClick={handleShowMore}
-                >
-                  Show more
-                </button>
-              )}
             </>
           ) : (
             <p>You have no user yet.</p>

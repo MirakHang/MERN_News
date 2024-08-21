@@ -13,7 +13,7 @@ const playerSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    playerImage: {
+    image: {
       type: String,
       default:
         "https://www.pikpng.com/pngl/m/11-114289_cricket-batsman-vector-png-cricket-vector-png-clipart.png",
@@ -42,7 +42,7 @@ const playerSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
-    higestScore: {
+    highestScore: {
       type: Number,
       default: 0,
     },
