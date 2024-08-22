@@ -8,12 +8,13 @@ import { useSelector } from "react-redux";
 import { FaLocationArrow } from "react-icons/fa6";
 import { Button } from "flowbite-react";
 
-export default function Comment({ comment, onLike, onEdit }) {
+export default function Comment({ comment, onLike, onEdit, onDelete }) {
   const [user, setUser] = useState({});
   const commentDate = new Date(user.createdAt);
   const { currentUser } = useSelector((state) => state.user);
   const [editComment, setEditComment] = useState(false);
   const [editedContent, setEditedContent] = useState(comment.content);
+  const [deleteModal, setDeleteModal] = useState(false);
 
   //for fetching userimage, username and others
   useEffect(() => {
@@ -141,25 +142,35 @@ export default function Comment({ comment, onLike, onEdit }) {
                 {currentUser &&
                   (currentUser._id === comment.userId ||
                     currentUser.isAdmin) && (
-                    <div
-                      className="flex justify-center items-center gap-1 cursor-pointer"
-                      onClick={handleEdit}
-                    >
-                      <span>
-                        <FaEdit
-                          className="text-green-500"
-                          style={{ width: "14px", height: "14px" }}
-                        />
-                      </span>
-                      <span className="text-green-500 ">Edit</span>
-                    </div>
+                    <>
+                      <div
+                        className="flex justify-center items-center gap-1 cursor-pointer"
+                        onClick={handleEdit}
+                      >
+                        <span>
+                          <FaEdit
+                            className="text-green-500"
+                            style={{ width: "14px", height: "14px" }}
+                          />
+                        </span>
+                        <span className="text-green-500 ">Edit</span>
+                      </div>
+                      <div
+                        className="flex justify-center items-center gap-1 cursor-pointer text-red-500 "
+                        onClick={() => onDelete(comment._id)}
+                      >
+                        <span>
+                          <MdOutlineDelete />
+                        </span>
+                        <span>Delete</span>
+                      </div>
+                    </>
                   )}
-                <div className="flex justify-center items-center gap-1 cursor-pointer text-red-500 ">
-                  <span>
-                    <MdOutlineDelete />
-                  </span>
-                  <span>Delete</span>
-                </div>
+                {/* {currentUser &&
+                  (currentUser._id === comment.userId ||
+                    currentUser.isAdmin) && (
+                    
+                  )} */}
               </div>
             </>
           )}
