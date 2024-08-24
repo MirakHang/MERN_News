@@ -11,7 +11,7 @@ import { LiaCommentDots } from "react-icons/lia";
 import Slider from "../components/Slider";
 
 export default function Home() {
-  const [userPosts, setUserPosts] = useState([]);
+  const [posts, setPosts] = useState([]);
   const [showMore, setShowMore] = useState(true);
   const [loading, setLoading] = useState(false);
   const { currentUser } = useSelector((state) => state.user);
@@ -22,52 +22,29 @@ export default function Home() {
   // fetching players
   useEffect(() => {
     const fetchPlayers = async () => {
-      try {
-        const res = await fetch(
-          `/api/player/getplayers?userId=${currentUser._id}`
-        );
-        const data = await res.json();
-        if (res.ok) {
-          setPlayersList(data.players);
-        }
-      } catch (error) {
-        console.log(error.message);
-      }
+      const res = await fetch("/api/player/getplayers");
+      const data = await res.json();
+      setPlayersList(data.players);
     };
-    if (currentUser.isAdmin) {
-      fetchPlayers();
-    }
-  }, [currentUser._id]);
-  console.log(playersList);
+    fetchPlayers();
+  }, []);
+  console.log(playersList, "222");
 
   // fetching posts
   useEffect(() => {
     const fetchPosts = async () => {
-      try {
-        setLoading(true);
-        const res = await fetch(`api/post/getposts?userId=${currentUser._id}`);
-        const data = await res.json();
-        if (res.ok) {
-          setLoading(false);
-          setUserPosts(data.posts);
-          if (data.posts.length < 9) {
-            setShowMore(false);
-          }
-        }
-      } catch (error) {
-        console.log(error.message);
-      }
+      const res = await fetch("/api/post/getPosts");
+      const data = await res.json();
+      setPosts(data.posts);
     };
-    if (currentUser.isAdmin) {
-      fetchPosts();
-    }
-  }, [currentUser._id]);
+    fetchPosts();
+  }, []);
 
   const handleShowMore = async () => {
     const startIndex = playersList.length;
     try {
       const res = await fetch(
-        `/api/player/getplayers?userId=${currentUser._id}&startIndex=${startIndex}&limit=4`
+        `/api/player/getplayers?&startIndex=${startIndex}&limit=4`
       );
       const data = await res.json();
       if (res.ok) {
@@ -133,7 +110,7 @@ export default function Home() {
         </div>
       ) : (
         <div>
-          {userPosts.length > 0 ? (
+          {posts.length > 0 ? (
             <>
               <div
                 className="grid  justify-center items-center md:grid-cols-2 mg:gap-2 px-1  lg:grid-cols-3 grid-cols-1 gap-4 overflow-y-scroll scrollbar  scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500"
@@ -141,12 +118,12 @@ export default function Home() {
                   overflowY: "auto",
                 }}
               >
-                {userPosts.map((post) => (
+                {posts.map((post) => (
                   <Link
                     // to={`/post/${post.slug}`}
                     to={`/post/${post.slug}`}
                     className="mx-auto mb-2 bg-white rounded-md shadow-md  flex-grow w-full dark:border-gray-700 dark:bg-gray-800"
-                    key={post._id}
+                    key={post.slug}
                     post={post}
                   >
                     <div>

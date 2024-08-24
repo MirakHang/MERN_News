@@ -12,29 +12,6 @@ const Slider = () => {
         className="relative w-full py-4 px-3 flex justify-center items-center mx-auto"
         data-carousel="slide"
       >
-        {/* <div className="relative h-56 overflow-hidden rounded-lg md:h-96">
-          <div className="hidden duration-700 ease-in-out" data-carousel-item>
-            <img
-              src={image1}
-              className="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 sm:h-28 md:h-64 lg:h-80 xl:h-96"
-              alt="..."
-            />
-          </div>
-          <div className="hidden duration-700 ease-in-out" data-carousel-item>
-            <img
-              src={image2}
-              className="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 h-40 sm:h-48 md:h-64 lg:h-80 xl:h-96"
-              alt="..."
-            />
-          </div>
-          <div className="hidden duration-700 ease-in-out" data-carousel-item>
-            <img
-              src={image3}
-              className="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 h-40 sm:h-48 md:h-64 lg:h-80 xl:h-96"
-              alt="..."
-            />
-          </div>
-        </div> */}
         <div className="relative h-56 overflow-hidden rounded-lg md:h-96 container z-0">
           <div className="hidden duration-700 ease-in-out" data-carousel-item>
             <img
