@@ -17,6 +17,7 @@ import PostPage from "./pages/PostPage";
 import UpdatePlayer from "./pages/UpdatePlayer";
 import PlayerPage from "./pages/PlayerPage";
 import ScrollToTop from "./components/ScrollToTop";
+import ChangeSliderImages from "./pages/ChangeSliderImages";
 
 export default function App() {
   return (
@@ -43,6 +44,10 @@ export default function App() {
             <Route path="/update-post/:postId" element={<UpdatePost />} />
             <Route path="/create-player" element={<CreatePlayer />} />
             <Route path="/update-player/:playerId" element={<UpdatePlayer />} />
+            <Route
+              path="/update-slider-image"
+              element={<ChangeSliderImages />}
+            />
           </Route>
         </Routes>
         <Footer />

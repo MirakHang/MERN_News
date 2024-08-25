@@ -8,7 +8,6 @@ export const createplayer = async (req, res, next) => {
   if (!req.body.playerName) {
     return next(errorHandler(400, "Please provide all the fields"));
   }
-  console.log(req.body.playerName);
   const slug = req.body.playerName.split(" ").join("-").toLowerCase();
   const newPlayer = new Player({
     ...req.body,

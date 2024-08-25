@@ -2,7 +2,21 @@ import mongoose from "mongoose";
 
 const sliderImageSchema = new mongoose.Schema(
   {
-    sliderImage: {
+    imageId: {
+      type: String,
+      required: true,
+    },
+    sliderImageOne: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    sliderImageTwo: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    sliderImageThree: {
       type: String,
       required: true,
       unique: true,
@@ -15,4 +29,4 @@ const sliderImageSchema = new mongoose.Schema(
 
 const Slider = mongoose.model("SliderImage", sliderImageSchema);
 
-export default SliderImage;
+export default Slider;

@@ -256,6 +256,17 @@ export default function DashProfile() {
             </Button>
           </Link>
         )}
+        {currentUser.isAdmin && (
+          <Link to={`/update-slider-image`}>
+            <Button
+              type="button"
+              gradientDuoTone="purpleToPink"
+              className="w-full"
+            >
+              Change Slider Image
+            </Button>
+          </Link>
+        )}
       </form>
       <div className="text-red-500 flex justify-between mt-4">
         <span
