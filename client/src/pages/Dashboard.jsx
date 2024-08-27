@@ -5,6 +5,8 @@ import DashProfile from "../components/DashProfile";
 import DashPost from "../components/DashPost";
 import DashUsers from "../components/DashUsers";
 import DashPlayers from "../components/DashPlayers";
+import DashComments from "../components/DashComments";
+import DashboardComp from "../components/DashboardComp";
 
 export default function Dashboard() {
   const loacation = useLocation();

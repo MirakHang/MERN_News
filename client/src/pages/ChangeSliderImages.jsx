@@ -64,7 +64,6 @@ export default function ChangeSliderImages() {
       // console.log(error);
     }
   };
-  console.log(formData, "111");
   const handleUploadImage2 = async () => {
     try {
       if (!file) {
@@ -157,7 +156,7 @@ export default function ChangeSliderImages() {
         return;
       }
       setPublishError(null);
-      navigate(`/sliderimage/${data.slug}`);
+      navigate("/dashboard?tab=profile");
     } catch (error) {
       setPublishError("Something went wrong");
     }

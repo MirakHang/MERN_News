@@ -67,7 +67,7 @@ export default function DashUsers() {
 
   return (
     <div
-      className="mx-auto"
+      className="mx-auto overflow-y-scroll custom-scrollbar scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500"
       style={{
         height: "630px",
         overflowY: "auto",
@@ -76,7 +76,7 @@ export default function DashUsers() {
       {currentUser.isAdmin && users.length > 0 ? (
         <>
           <div
-            className="grid  justify-center items-center md:grid-cols-1 lg:grid-cols-2 grid-cols-1 gap-0 overflow-y-scroll scrollbar  scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500"
+            className="grid  justify-center items-center md:grid-cols-1 lg:grid-cols-2 grid-cols-1 gap-0 "
             style={{
               overflowY: "auto",
             }}

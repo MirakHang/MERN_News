@@ -78,17 +78,19 @@ export default function DashPlayers() {
 
   return (
     <div
-      className=" flex justify-center mx-auto w-full"
+      className=" flex justify-center mx-auto w-full overflow-y-scroll custom-scrollbar scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500"
       style={{ height: "630px", overflowY: "auto" }}
     >
       {currentUser.isAdmin && playersList.length > 0 ? (
         <>
           <div style={{ height: "30px" }}>
             <div
-              className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-2 grid-cols-1 gap-6 overflow-y-scroll scrollbar  scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500"
-              style={{
-                overflowY: "auto",
-              }}
+              className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-2 grid-cols-1 gap-6"
+              style={
+                {
+                  // overflowY: "auto",
+                }
+              }
             >
               {playersList.map((player) => (
                 <div
@@ -140,7 +142,7 @@ export default function DashPlayers() {
             </div>
             {showMore && (
               <button
-                className="w-full text-blue-500 self-center text-sm py-7"
+                className="w-full text-blue-500 self-center text-sm py-7 mb-3"
                 onClick={handleShowMore}
               >
                 Show More

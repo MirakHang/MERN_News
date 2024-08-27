@@ -44,20 +44,23 @@ export default function DashSiderbar() {
     <Sidebar className="w-full md:w-52">
       <Sidebar.Items>
         <Sidebar.ItemGroup className="flex flex-col gap-1">
-          {/* <Link to="/dashboard?tab=profile">
-            <Sidebar.Item
-              active={tab === "profile"}
-              icon={HiUser}
-              label={currentUser.isAdmin ? "Admin" : "User"}
-              labelColor="purple"
-              as="div"
-            > */}
+          {currentUser.isAdmin && (
+            <Link to="/dashboard?tab=dash">
+              <Sidebar.Item
+                active={tab === "dashboard"}
+                icon={HiDocumentText}
+                as={"div"}
+              >
+                Dashboard
+              </Sidebar.Item>
+            </Link>
+          )}
           <Link to="/dashboard?tab=profile">
             <Sidebar.Item
               active={tab === "profile"}
               icon={HiUser}
               label={currentUser.isAdmin ? "Admin" : "User"}
-              labelColor="dark"
+              labelColor="blue"
               as="div"
             >
               Profile
@@ -71,6 +74,17 @@ export default function DashSiderbar() {
                 as={"div"}
               >
                 Posts
+              </Sidebar.Item>
+            </Link>
+          )}
+          {currentUser.isAdmin && (
+            <Link to="/dashboard?tab=comments">
+              <Sidebar.Item
+                active={tab === "comments"}
+                icon={HiDocumentText}
+                as={"div"}
+              >
+                Comments
               </Sidebar.Item>
             </Link>
           )}

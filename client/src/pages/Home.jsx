@@ -28,7 +28,6 @@ export default function Home() {
     };
     fetchPlayers();
   }, []);
-  console.log(playersList, "222");
 
   // fetching posts
   useEffect(() => {
