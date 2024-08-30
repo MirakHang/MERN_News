@@ -199,12 +199,12 @@ export default function DashboardComp() {
                   </div>
                 </div>
               ))}
-              <Link
-                to={"/dashboard?tab=users"}
+              <a
+                href={"/dashboard?tab=users"}
                 className="flex justify-center items-center text-blue-500 pt-2"
               >
                 See All
-              </Link>
+              </a>
             </ul>
           </div>
         );
@@ -235,12 +235,12 @@ export default function DashboardComp() {
                   </div>
                 </div>
               ))}
-              <Link
-                to={"/dashboard?tab=posts"}
+              <a
+                href={"/dashboard?tab=posts"}
                 className="flex justify-center items-center text-blue-500 pt-2"
               >
                 See All
-              </Link>
+              </a>
             </ul>
           </div>
         );
@@ -273,12 +273,12 @@ export default function DashboardComp() {
                   </div>
                 </div>
               ))}
-              <Link
-                to={"/dashboard?tab=comments"}
+              <a
+                href={"/dashboard?tab=comments"}
                 className="flex justify-center items-center text-blue-500 pt-2"
               >
                 See All
-              </Link>
+              </a>
             </ul>
           </div>
         );
@@ -309,12 +309,12 @@ export default function DashboardComp() {
                   </div>
                 </div>
               ))}
-              <Link
-                to={"/dashboard?tab=players"}
+              <a
+                href={"/dashboard?tab=players"}
                 className="flex justify-center items-center text-blue-500 pt-2"
               >
                 See All
-              </Link>
+              </a>
             </ul>
           </div>
         );

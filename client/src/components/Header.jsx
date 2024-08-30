@@ -1,16 +1,35 @@
-import { Link, Navigate, useLocation } from "react-router-dom";
+import {
+  Link,
+  Navigate,
+  useLocation,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { Avatar, Dropdown, TextInput, Button } from "flowbite-react";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleTheme } from "../redux/theme/themeSlice.js";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { signoutSuccess } from "../redux/user/userSlice.js";
+import { useEffect, useState } from "react";
 
 export default function Header() {
   const location = useLocation();
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
   const { theme } = useSelector((state) => state.theme);
+  const [searchTerm, setSearchTerm] = useState("");
+  const searchLocation = useLocation();
+  const navigate = useNavigate();
+  console.log(searchTerm);
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(searchLocation.search);
+    const searchTermFromUrl = urlParams.get("searchTerm");
+    if (searchTermFromUrl) {
+      setSearchTerm(searchTermFromUrl);
+    }
+  }, [searchLocation.search]);
 
   const navItems = [
     { name: "Home", path: "/" },
@@ -34,6 +53,15 @@ export default function Header() {
     }
   };
 
+  const handleSubmit = (e) => {
+    console.log("aaa");
+    e.preventDefault();
+    const urlParams = new URLSearchParams(searchLocation.search);
+    urlParams.set("searchTerm", searchTerm);
+    const searchQuery = urlParams.toString();
+    navigate(`/search?${searchQuery}`);
+  };
+
   return (
     <div>
       <nav className="bg-white border-gray-700 dark:bg-gray-800 pb-2 border-b-2 ">
@@ -50,7 +78,10 @@ export default function Header() {
           <div className="flex md:order-2">
             <div className="flex justify-center gap-2 ">
               <div className="w-[200px]">
-                <form className="max-w-md mx-auto mt-2 hidden sm:block ">
+                <form
+                  className="max-w-md mx-auto mt-2 hidden sm:block "
+                  onSubmit={handleSubmit}
+                >
                   <label
                     htmlFor="default-search"
                     className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
@@ -62,11 +93,13 @@ export default function Header() {
                       {/* <FaSearch className="text-gray-500 text-xs" /> */}
                     </div>
                     <input
+                      value={searchTerm}
                       type="search"
                       id="default-search"
                       className="block ps-8 text-xs text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-auto"
                       placeholder="Search..."
                       required
+                      onChange={(e) => setSearchTerm(e.target.value)}
                     />
                   </div>
                 </form>

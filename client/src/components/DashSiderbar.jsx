@@ -5,6 +5,8 @@ import {
   HiArrowSmRight,
   HiDocumentText,
   HiOutlineUserGroup,
+  HiChartPie,
+  HiAnnotation,
 } from "react-icons/hi";
 import { Link, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -45,17 +47,17 @@ export default function DashSiderbar() {
       <Sidebar.Items>
         <Sidebar.ItemGroup className="flex flex-col gap-1">
           {currentUser.isAdmin && (
-            <Link to="/dashboard?tab=dash">
+            <a href="/dashboard?tab=dash">
               <Sidebar.Item
                 active={tab === "dashboard"}
-                icon={HiDocumentText}
+                icon={HiChartPie}
                 as={"div"}
               >
                 Dashboard
               </Sidebar.Item>
-            </Link>
+            </a>
           )}
-          <Link to="/dashboard?tab=profile">
+          <a href={"/dashboard?tab=profile"}>
             <Sidebar.Item
               active={tab === "profile"}
               icon={HiUser}
@@ -65,9 +67,9 @@ export default function DashSiderbar() {
             >
               Profile
             </Sidebar.Item>
-          </Link>
+          </a>
           {currentUser.isAdmin && (
-            <Link to="/dashboard?tab=posts">
+            <a href="/dashboard?tab=posts">
               <Sidebar.Item
                 active={tab === "posts"}
                 icon={HiDocumentText}
@@ -75,21 +77,21 @@ export default function DashSiderbar() {
               >
                 Posts
               </Sidebar.Item>
-            </Link>
+            </a>
           )}
           {currentUser.isAdmin && (
-            <Link to="/dashboard?tab=comments">
+            <a href="/dashboard?tab=comments">
               <Sidebar.Item
                 active={tab === "comments"}
-                icon={HiDocumentText}
+                icon={HiAnnotation}
                 as={"div"}
               >
                 Comments
               </Sidebar.Item>
-            </Link>
+            </a>
           )}
           {currentUser.isAdmin && (
-            <Link to="/dashboard?tab=users">
+            <a href="/dashboard?tab=users">
               <Sidebar.Item
                 active={tab === "users"}
                 icon={HiOutlineUserGroup}
@@ -97,18 +99,18 @@ export default function DashSiderbar() {
               >
                 Users
               </Sidebar.Item>
-            </Link>
+            </a>
           )}
           {currentUser.isAdmin && (
-            <Link to="/dashboard?tab=players">
+            <a href="/dashboard?tab=players">
               <Sidebar.Item
                 active={tab === "players"}
-                icon={HiDocumentText}
+                icon={HiOutlineUserGroup}
                 as={"div"}
               >
                 Players
               </Sidebar.Item>
-            </Link>
+            </a>
           )}
 
           <Sidebar.Item

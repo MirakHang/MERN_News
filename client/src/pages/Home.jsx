@@ -9,6 +9,7 @@ import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { FaRegHeart } from "react-icons/fa";
 import { LiaCommentDots } from "react-icons/lia";
 import Slider from "../components/Slider";
+import moment from "moment";
 
 export default function Home() {
   const [posts, setPosts] = useState([]);
@@ -136,9 +137,9 @@ export default function Home() {
                             : post.title}
                         </h3>
 
-                        <span className="pb-1 font-bold dark:text-gray-300">
-                          1 hr ago
-                        </span>
+                        <p className="truncate text-sm text-gray-500 dark:text-gray-400">
+                          {moment(post.createdAt).fromNow()}
+                        </p>
                         <div className="md:shrink-0">
                           <img
                             className=" object-cover rounded-md md:w-48 justify-center items-center flex my-auto mx-auto"

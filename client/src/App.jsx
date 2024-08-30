@@ -18,6 +18,7 @@ import UpdatePlayer from "./pages/UpdatePlayer";
 import PlayerPage from "./pages/PlayerPage";
 import ScrollToTop from "./components/ScrollToTop";
 import ChangeSliderImages from "./pages/ChangeSliderImages";
+import Search from "./pages/Search";
 
 export default function App() {
   return (
@@ -36,6 +37,7 @@ export default function App() {
           <Route path="/projects" element={<Projects />} />
           <Route path="/post/:postSlug" element={<PostPage />} />
           <Route path="/player/:playerSlug" element={<PlayerPage />} />
+          <Route path="/Search" element={<Search />} />
           <Route element={<PrivateRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />
           </Route>

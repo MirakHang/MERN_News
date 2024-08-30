@@ -8,9 +8,12 @@ import {
 } from "../redux/user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import OAuth from "../components/OAuth";
+import { IoIosEye } from "react-icons/io";
+import { IoIosEyeOff } from "react-icons/io";
 
 export default function SignIn() {
   const [formData, setFormData] = useState({});
+  const [showPassword, setShowPassword] = useState(false);
   const { loading, error: errorMessage } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -43,6 +46,11 @@ export default function SignIn() {
       dispatch(signInFailure(error.message));
     }
   };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
       <div className="flex flex-col items-center justify-center px-6 pt-4 mx-auto md:h-screen lg:py-0">
@@ -83,12 +91,12 @@ export default function SignIn() {
                   onChange={handleChange}
                 />
               </div>
-              <div>
+              {/* <div>
                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                   Password
                 </label>
                 <input
-                  type="text"
+                  type="password"
                   name="password"
                   id="password"
                   placeholder="••••••••"
@@ -96,8 +104,33 @@ export default function SignIn() {
                   required=""
                   onChange={handleChange}
                 />
-              </div>
+              </div> */}
 
+              <div className="relative">
+                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                  Password
+                </label>
+                <input
+                  type={showPassword ? "text" : "password"} // Toggle between text and password
+                  name="password"
+                  id="password"
+                  placeholder="••••••••"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  required=""
+                  onChange={handleChange}
+                />
+                <button
+                  type="button"
+                  className="absolute inset-y-0 right-0 mr-1 flex items-center text-sm leading-5 mt-7"
+                  onClick={togglePasswordVisibility}
+                >
+                  {showPassword ? (
+                    <IoIosEye className="w-5 h-5" />
+                  ) : (
+                    <IoIosEyeOff className="w-5 h-5" />
+                  )}
+                </button>
+              </div>
               <button
                 className="flex py-2 items-center px-8 justify-center text-lg font-medium text-white rounded-xl shadow-lg bg-blue-500  mx-auto"
                 type="submit"
