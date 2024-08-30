@@ -34,7 +34,7 @@ export default function Header() {
   const navItems = [
     { name: "Home", path: "/" },
     { name: "About", path: "/about" },
-    { name: "Projects", path: "/projects" },
+    { name: "Teams", path: "/teams" },
   ];
 
   const handleSignout = async () => {

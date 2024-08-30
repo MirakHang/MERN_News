@@ -34,7 +34,7 @@ export default function App() {
           <Route path="/about" element={<About />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/sign-in" element={<SignIn />} />
-          <Route path="/projects" element={<Projects />} />
+          <Route path="/teams" element={<Projects />} />
           <Route path="/post/:postSlug" element={<PostPage />} />
           <Route path="/player/:playerSlug" element={<PlayerPage />} />
           <Route path="/Search" element={<Search />} />

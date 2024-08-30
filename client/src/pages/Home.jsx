@@ -152,7 +152,7 @@ export default function Home() {
                           />
                         </div>
                       </div>
-                      <div className="p-4 pt-2" style={{ height: "95px" }}>
+                      <div className="p-4 pt-2" style={{ height: "75px" }}>
                         <div className="tracking-wide text-sm text-gray-800 font-semibold dark:text-gray-400">
                           Category: {post.category}
                         </div>
@@ -168,7 +168,7 @@ export default function Home() {
                                 : post.title,
                           }}
                         ></p>
-                        <div className="flex items-center mt-2 gap-4 justify-between mx-2">
+                        {/* <div className="flex items-center mt-2 gap-4 justify-between mx-2">
                           <div className="text-gray-500 hover:text-indigo-600 flex justify-center items-center">
                             <FaRegHeart />
                             <span className="ml-2">Like</span>
@@ -177,7 +177,7 @@ export default function Home() {
                             <LiaCommentDots className="h-5 w-5" />
                             <span className="ml-2">Comment</span>
                           </div>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   </Link>
