@@ -5,7 +5,7 @@ import {
   useNavigate,
   useParams,
 } from "react-router-dom";
-import { RxHamburgerMenu } from "react-icons/rx";
+import { SlOptionsVertical } from "react-icons/sl";
 import { Avatar, Dropdown, TextInput, Button } from "flowbite-react";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleTheme } from "../redux/theme/themeSlice.js";
@@ -19,7 +19,6 @@ export default function Header() {
   const { currentUser } = useSelector((state) => state.user);
   const { theme } = useSelector((state) => state.theme);
   const [searchTerm, setSearchTerm] = useState("");
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const searchLocation = useLocation();
   const navigate = useNavigate();
   console.log(searchTerm);
@@ -52,9 +51,6 @@ export default function Header() {
     } catch (error) {
       console.log(error.message);
     }
-  };
-  const handleMenuToggle = () => {
-    setIsMenuOpen(!isMenuOpen);
   };
 
   const handleSubmit = (e) => {
@@ -164,12 +160,35 @@ export default function Header() {
             <button
               data-collapse-toggle="navbar-search"
               type="button"
-              className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-1 text-sm text-gray-500 rounded-lg md:hidden focus:outline-none focus:ring-2"
+              className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-1 text-sm text-gray-500 rounded-lg md:hidden  focus:outline-none focus:ring-2 "
               aria-controls="navbar-search"
-              aria-expanded={isMenuOpen}
-              onClick={handleMenuToggle}
+              aria-expanded="false"
             >
-              <RxHamburgerMenu className="w-6 h-6" />
+              <Dropdown
+                className="z-50"
+                arrowIcon={false}
+                inline
+                label={<SlOptionsVertical className="w-5 h-5" />}
+              >
+                <Dropdown.Header>
+                  <Link to="/home" className="block text-sm mb-2">
+                    Home
+                  </Link>
+                  <Link
+                    to="/about"
+                    className="block text-sm font-medium truncate mb-2"
+                  >
+                    About
+                  </Link>
+                  <Link
+                    to="/teams"
+                    className="block text-sm font-medium truncate"
+                  >
+                    Teams
+                  </Link>
+                </Dropdown.Header>
+                <Dropdown.Divider />
+              </Dropdown>
             </button>
           </div>
           <div
