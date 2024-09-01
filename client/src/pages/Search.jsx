@@ -167,7 +167,12 @@ export default function Search() {
                   </p>
                   <p
                     className="text-gray-700 text-md md:text-sm font-medium dark:text-gray-500"
-                    dangerouslySetInnerHTML={{ __html: post && post.content }}
+                    dangerouslySetInnerHTML={{
+                      __html:
+                        post && post.content && post.content.length > 50
+                          ? `${post.content.slice(0, 235)}...`
+                          : post.title,
+                    }}
                   ></p>
 
                   <div className="tracking-wide text-md text-gray-700 dark:text-gray-400">

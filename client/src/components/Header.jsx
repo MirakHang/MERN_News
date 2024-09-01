@@ -182,7 +182,10 @@ export default function Header() {
         </div>
         <div className="flex justify-center gap-2 ">
           <div className="">
-            <form className="max-w-md mx-auto mt-1 sm:hidden block ">
+            <form
+              className="max-w-md mx-auto mt-1 sm:hidden block "
+              onSubmit={handleSubmit}
+            >
               <label
                 htmlFor="default-search"
                 className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
@@ -196,7 +199,7 @@ export default function Header() {
                 <input
                   type="search"
                   id="default-search"
-                  className="block p-2 ps-8 text-xs text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-72"
+                  className="block p-2 ps-8 text-xs text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-64"
                   placeholder="Search..."
                   required
                 />
