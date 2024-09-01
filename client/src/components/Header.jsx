@@ -19,6 +19,7 @@ export default function Header() {
   const { currentUser } = useSelector((state) => state.user);
   const { theme } = useSelector((state) => state.theme);
   const [searchTerm, setSearchTerm] = useState("");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const searchLocation = useLocation();
   const navigate = useNavigate();
   console.log(searchTerm);
@@ -51,6 +52,9 @@ export default function Header() {
     } catch (error) {
       console.log(error.message);
     }
+  };
+  const handleMenuToggle = () => {
+    setIsMenuOpen(!isMenuOpen);
   };
 
   const handleSubmit = (e) => {
@@ -148,12 +152,22 @@ export default function Header() {
                 </Link>
               </button>
             )}
-            <button
+            {/* <button
               data-collapse-toggle="navbar-search"
               type="button"
               className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-1 text-sm text-gray-500 rounded-lg md:hidden  focus:outline-none focus:ring-2 "
               aria-controls="navbar-search"
               aria-expanded="false"
+            >
+              <RxHamburgerMenu className="w-6 h-6" />
+            </button> */}
+            <button
+              data-collapse-toggle="navbar-search"
+              type="button"
+              className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-1 text-sm text-gray-500 rounded-lg md:hidden focus:outline-none focus:ring-2"
+              aria-controls="navbar-search"
+              aria-expanded={isMenuOpen}
+              onClick={handleMenuToggle}
             >
               <RxHamburgerMenu className="w-6 h-6" />
             </button>
