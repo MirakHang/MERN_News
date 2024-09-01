@@ -82,27 +82,91 @@ export default function DashUsers() {
             }}
           >
             {users.map((user) => (
+              // <div className="p-2 mt-2" key={user._id}>
+              //   <div className="flex flex-col gap-1 md:flex-row sm:flex-row items-center bg-gray-100 border border-gray-200 rounded-lg shadow dark:border-gray-700 dark:bg-gray-800">
+              //     <div className="">
+              //       <img
+              //         className="object-cover rounded-full p-2 w-auto"
+              //         style={{
+              //           width: "200px",
+              //           height: "190px",
+              //         }}
+              //         src={user.profilePicture}
+              //         alt={user.profilePicture}
+              //       />
+              //     </div>
+              //     <div className="flex flex-col justify-between p-2 leading-normal w-full md:w-1/2">
+              //       <h5 className="mb-2 text-2xl font-medium tracking-tight text-gray-900 dark:text-white">
+              //         {user.username}
+              //       </h5>
+              //       <p className="mb-2 font-normal text-gray-700 dark:text-gray-400 line-clamp-3 ">
+              //         User Name: {user.username}
+              //       </p>
+              //       <p className="mb-2 font-normal text-gray-700 dark:text-gray-400 line-clamp-3 flex gap-2">
+              //         Admin:
+              //         {user.isAdmin ? (
+              //           <FaCheck className="text-green-500 self-center w-5 h-5" />
+              //         ) : (
+              //           <FaTimes className="text-red-500 self-center w-5 h-5" />
+              //         )}
+              //       </p>
+              //       <p
+              //         className="font-normal text-gray-700 dark:text-gray-400 "
+              //         style={{
+              //           height: "50px",
+              //           display: "-webkit-box",
+              //           WebkitLineClamp: 2,
+              //           WebkitBoxOrient: "vertical",
+              //           overflow: "hidden",
+              //           textOverflow: "ellipsis",
+              //         }}
+              //       >
+              //         Email: {user.email}
+              //       </p>
+              //       <div>
+              //         <span className="text-gray-400">
+              //           Created Date:{" "}
+              //           {new Date(user.createdAt).toLocaleDateString()}
+              //         </span>
+              //       </div>
+              //       <div className="flex gap-4">
+              //         <div className="flex items-center gap-1">
+              //           <MdDelete className="w-4 h-4 text-red-600 dark:hover:text-gray-700" />
+              //           <button
+              //             className="dark:hover:text-white  text-red-600 px-2 py-1 rounded-md transition-colors duration-200"
+              //             onClick={() => {
+              //               setShowDeleteModal(true);
+              //               setUserIdToDelete(user._id);
+              //             }}
+              //           >
+              //             Delete
+              //           </button>
+              //         </div>
+              //       </div>
+              //     </div>
+              //   </div>
+              // </div>
               <div className="p-2 mt-2" key={user._id}>
-                <div className="flex flex-col gap-1 md:flex-row sm:flex-row items-center bg-gray-100 border border-gray-200 rounded-lg shadow dark:border-gray-700 dark:bg-gray-800">
-                  <div className=" md:w-1/2">
+                <div className="flex flex-col gap-4 md:flex-row sm:flex-row items-center bg-gray-100 border border-gray-200 rounded-lg shadow dark:border-gray-700 dark:bg-gray-800">
+                  <div className="flex-shrink-0">
                     <img
-                      className="object-cover rounded-full p-2"
+                      className="object-cover rounded-full p-2 w-auto"
                       style={{
-                        height: "160px",
-                        width: "250px",
+                        width: "150px", // Reduce the size for smaller screens
+                        height: "150px",
                       }}
                       src={user.profilePicture}
-                      alt={user.profilePicture}
+                      alt={user.username}
                     />
                   </div>
-                  <div className="flex flex-col justify-between p-2 leading-normal w-full md:w-1/2">
-                    <h5 className="mb-2 text-2xl font-medium tracking-tight text-gray-900 dark:text-white">
+                  <div className="flex flex-col justify-between p-4 leading-normal w-full md:w-3/4">
+                    <h5 className="mb-2 text-xl font-medium tracking-tight text-gray-900 dark:text-white">
                       {user.username}
                     </h5>
-                    <p className="mb-2 font-normal text-gray-700 dark:text-gray-400 line-clamp-3 ">
+                    <p className="mb-2 font-normal text-gray-700 dark:text-gray-400">
                       User Name: {user.username}
                     </p>
-                    <p className="mb-2 font-normal text-gray-700 dark:text-gray-400 line-clamp-3 flex gap-2">
+                    <p className="mb-2 font-normal text-gray-700 dark:text-gray-400 flex gap-2">
                       Admin:
                       {user.isAdmin ? (
                         <FaCheck className="text-green-500 self-center w-5 h-5" />
@@ -111,9 +175,8 @@ export default function DashUsers() {
                       )}
                     </p>
                     <p
-                      className="font-normal text-gray-700 dark:text-gray-400 "
+                      className="font-normal text-gray-700 dark:text-gray-400"
                       style={{
-                        height: "50px",
                         display: "-webkit-box",
                         WebkitLineClamp: 2,
                         WebkitBoxOrient: "vertical",
@@ -129,11 +192,11 @@ export default function DashUsers() {
                         {new Date(user.createdAt).toLocaleDateString()}
                       </span>
                     </div>
-                    <div className="flex gap-4">
+                    <div className="flex gap-4 mt-2">
                       <div className="flex items-center gap-1">
                         <MdDelete className="w-4 h-4 text-red-600 dark:hover:text-gray-700" />
                         <button
-                          className="dark:hover:text-white  text-red-600 px-2 py-1 rounded-md transition-colors duration-200"
+                          className="dark:hover:text-white text-red-600 px-2 py-1 rounded-md transition-colors duration-200"
                           onClick={() => {
                             setShowDeleteModal(true);
                             setUserIdToDelete(user._id);
